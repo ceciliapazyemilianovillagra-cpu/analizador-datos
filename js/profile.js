@@ -130,6 +130,6 @@ export function analyze(ds) {
       if (a && Math.abs(b / a - 1) > 0.1) insights.push(`«${meas.name}» ${b > a ? 'crece' : 'baja'} ${Math.abs((b / a - 1) * 100).toFixed(0)}% entre la primera y la segunda mitad del período de «${d.name}».`);
     }
   }
-  if (!insights.length) insights.push('No se encontraron patrones fuertes con las reglas automáticas; probá la propuesta con Gemini.');
+  if (!insights.length) insights.push('No se encontraron patrones fuertes con las reglas automáticas.');
   return { quality, insights };
 }
