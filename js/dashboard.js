@@ -134,8 +134,8 @@ export class Dashboard {
   }
 
   chartOption(c, rows) {
-    const text = css('--text'), muted = css('--muted'), line = css('--line'), color = ['#1e4fa8', '#c77d12', '#2a8a7c', '#b8476f', '#6b7fb5', '#7c8590', '#8a9a2c', '#c4503f'];
-    const base = { color, textStyle: { fontFamily: 'Fira Sans, system-ui, sans-serif', color: text }, grid: { left: 4, right: 16, top: 16, bottom: 4, containLabel: true }, tooltip: { trigger: 'axis', valueFormatter: v => fmt(v), confine: true } };
+    const text = css('--text'), muted = css('--muted'), line = css('--line'), color = ['#2a8f6a', '#e8590c', '#3a8fb0', '#d4a017', '#8a6d3b', '#5d6b63', '#7aa33a', '#b3261e'];
+    const base = { color, textStyle: { fontFamily: 'Nunito, system-ui, sans-serif', color: text }, grid: { left: 4, right: 16, top: 16, bottom: 4, containLabel: true }, tooltip: { trigger: 'axis', valueFormatter: v => fmt(v), confine: true } };
     const ax = { axisLabel: { color: muted, hideOverlap: true }, axisLine: { lineStyle: { color: line } }, axisTick: { show: false }, splitLine: { lineStyle: { color: line } } };
     const val = { ...ax, type: 'value', axisLabel: { color: muted, formatter: v => fmt(v) }, axisLine: { show: false } };
     const yName = c.y ? aggLabel(c.agg, c.y) : 'Registros';
@@ -143,7 +143,7 @@ export class Dashboard {
     if (c.type === 'bar' || c.type === 'hbar') {
       const g = groupBy(rows, c.x, c.y, c.agg, c.type === 'hbar' ? 12 : 10); if (!g.length) return null;
       const cat = { ...ax, type: 'category', data: g.map(a => a[0]), axisLabel: { color: muted, interval: 0, formatter: trim, rotate: c.type === 'bar' && g.length > 6 ? 30 : 0 }, splitLine: { show: false }, inverse: c.type === 'hbar' };
-      return { head: [c.x, yName], table: g, option: { ...base, xAxis: c.type === 'hbar' ? val : cat, yAxis: c.type === 'hbar' ? cat : val, series: [{ type: 'bar', data: g.map(a => a[1]), itemStyle: { color: color[0] }, barMaxWidth: 28 }] } };
+      return { head: [c.x, yName], table: g, option: { ...base, xAxis: c.type === 'hbar' ? val : cat, yAxis: c.type === 'hbar' ? cat : val, series: [{ type: 'bar', data: g.map(a => a[1]), itemStyle: { color: color[0], borderRadius: c.type === 'hbar' ? [0, 6, 6, 0] : [6, 6, 0, 0] }, barMaxWidth: 28 }] } };
     }
     if (c.type === 'pie') {
       const g = groupBy(rows, c.x, null, 'count', 7); if (!g.length) return null;
@@ -155,7 +155,7 @@ export class Dashboard {
     }
     if (c.type === 'hist') {
       const h = histogram(rows, c.x); if (!h) return null;
-      return { head: [`Rango de ${c.x}`, 'Registros'], table: h.labels.map((l, i) => [l, h.counts[i]]), option: { ...base, xAxis: { ...ax, type: 'category', data: h.labels, splitLine: { show: false }, axisLabel: { color: muted, hideOverlap: true } }, yAxis: val, series: [{ type: 'bar', data: h.counts, barCategoryGap: '8%', itemStyle: { color: color[2] } }] } };
+      return { head: [`Rango de ${c.x}`, 'Registros'], table: h.labels.map((l, i) => [l, h.counts[i]]), option: { ...base, xAxis: { ...ax, type: 'category', data: h.labels, splitLine: { show: false }, axisLabel: { color: muted, hideOverlap: true } }, yAxis: val, series: [{ type: 'bar', data: h.counts, barCategoryGap: '8%', itemStyle: { color: color[2], borderRadius: [4, 4, 0, 0] } }] } };
     }
     if (c.type === 'scatter') {
       const pts = []; const step = Math.max(1, Math.floor(rows.length / 3000));
