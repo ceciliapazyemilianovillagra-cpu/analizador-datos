@@ -1,0 +1,4 @@
+.agents/
+.claude/
+skills-lock.json
+node_modules/
